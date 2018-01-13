@@ -62,7 +62,7 @@ Custom property | Description
         </g>
       </svg>
     </div>
-    <template is="dom-if" if="[[showValue]]">
+    <template is="dom-if" if="[[!hideValue]]">
       <div class="text-wrapper text--center">
         <span class="text-value">{{_valueOfProcess}}</span>
         <span class="text-unit">{{unit}}</span>
@@ -104,9 +104,9 @@ Custom property | Description
       * Whether to show value or not.
       *
       */
-      showValue: {
+      hideValue: {
         type: Boolean,
-        value: true
+        value: false
       },
 
       /**
