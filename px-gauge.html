@@ -108,6 +108,15 @@ Custom property | Description
         type: Boolean,
         value: false
       },
+      /**
+      * Number formatting string. Example: ",.2f"
+      * See https://github.com/d3/d3-format
+      *
+      */
+      numberFormat: {
+        type: String,
+        value: ',.2f'
+      },
 
       /**
        * Array of error ranges, expressed as pairs of numbers (not percentages).
@@ -552,7 +561,7 @@ Custom property | Description
           .tween('progress', (function() {
             return (function(percentOfPercent) {
               this._currentPerc = oldPerc + percentOfPercent * (targetPerc - oldPerc);
-              this.set('_valueOfProcess', (percentOfPercent == 1 ? this.value : parseInt(this.min + (this._currentPerc * (this.max - this.min)))) || 0);
+              this.set('_valueOfProcess', (percentOfPercent == 1 ? this.f(this.value) : this.f(parseFloat(this.min + (this._currentPerc * (this.max - this.min))))) || 0);
               this._repaintGauge();
               return this._d3Select('.needle').attr('transform', "rotate(" + (-180 + (scale(this._currentPerc) * 180 )) + ")");
             }).bind(this);
@@ -561,6 +570,9 @@ Custom property | Description
             this.set('_targetPerc', targetPerc);
           }.bind(this));
       }
+    },
+    f: function(val) {
+      return Px.d3.format(this.numberFormat)(val);
     }
   });
 </script>
